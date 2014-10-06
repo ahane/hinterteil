@@ -1,10 +1,16 @@
 import flask
 import flask.ext.sqlalchemy as alchemy
 import flask.ext.restless as restless
+import sys
 
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test11.db'
+
+args = sys.argv
+if len(args) > 1:
+    app.config['SQLALCHEMY_DATABASE_URI'] = args[1]
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = alchemy.SQLAlchemy(app)
 
 class Venue(db.Model):
@@ -34,7 +40,7 @@ class VenuePage(db.Model):
     third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'))
 
 class Region(db.Model):
-    id = db.Column(db.Unicode, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, unique=True, nullable=False)
     country = db.Column(db.Unicode, nullable=False)
     lat = db.Column(db.Float, nullable=False)
@@ -127,8 +133,6 @@ class PerformanceKind(db.Model):
 
 # Create the datadb.Model tables.
 succ = db.create_all()
-print(succ)
-
 # Create the Flask-Restless API manager.
 manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
