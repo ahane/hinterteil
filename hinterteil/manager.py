@@ -15,10 +15,10 @@ manager.create_api(Performance, methods=['GET', 'POST', 'PUT', 'HEAD'])
 #relatively static category-like entities
 manager.create_api(PerformanceKind, methods=['GET', 'PUT', 'POST', 'HEAD'], primary_key='name')
 manager.create_api(Region, methods=['GET', 'PUT', 'POST', 'HEAD'], primary_key='name')
-manager.create_api(ThirdParty, methods=['GET', 'PUT', 'HEAD'], primary_key='name')
+manager.create_api(ThirdParty, methods=['GET', 'POST', 'HEAD'], primary_key='name')
 
 #third party resources
-manager.create_api(ArtistSample, methods=['GET', 'PUT', 'HEAD'], primary_key='url')
-manager.create_api(VenuePage, methods=['GET', 'PUT', 'HEAD'], primary_key='url')
-manager.create_api(EventPage, methods=['GET', 'PUT', 'HEAD'], primary_key='url')
-manager.create_api(ArtistPage, methods=['GET', 'PUT', 'HEAD'], primary_key='url')
+manager.create_api(ArtistSample, methods=['GET', 'POST', 'HEAD'])
+manager.create_api(VenuePage, methods=['GET', 'POST', 'HEAD'])
+manager.create_api(EventPage, methods=['GET', 'POST', 'HEAD'])
+manager.create_api(ArtistPage, methods=['GET', 'POST', 'HEAD'])

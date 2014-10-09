@@ -19,12 +19,12 @@ class Venue(db.Model):
 class VenuePage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.Unicode, unique=True) #url at thridparty
+    url = db.Column(db.Unicode, unique=True, nullable=False) #url at thridparty
     resource_id = db.Column(db.Unicode, nullable=True) #the id on the third party
 
-    venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
+    venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), nullable=False)
     third_party = db.relationship('ThirdParty', backref='venue_pages')
-    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'))
+    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 
 class Region(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,12 +55,12 @@ class Event(db.Model):
 class EventPage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.Unicode, unique=True)
+    url = db.Column(db.Unicode, unique=True, nullable=False)
 
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     resource_id = db.Column(db.Unicode, nullable=True) #id at third party
     third_party = db.relationship('ThirdParty', backref='event_pages')
-    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'))
+    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 
 class Performance(db.Model):
 
@@ -68,10 +68,10 @@ class Performance(db.Model):
     time = db.Column(db.DateTime, nullable=True)
     name = db.Column(db.Unicode, nullable=True)
 
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
-    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
     kind = db.relationship('PerformanceKind', backref='performances')
-    kind_id = db.Column(db.Integer, db.ForeignKey('performance_kind.name'))
+    kind_id = db.Column(db.Integer, db.ForeignKey('performance_kind.name'), nullable=False)
 
 class Artist(db.Model):
 
@@ -90,10 +90,10 @@ class ArtistPage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Unicode, unique=True) #url at tp
 
-    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
+    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
     resource_id = db.Column(db.Unicode, nullable=True)
     third_party = db.relationship('ThirdParty', backref='artist_pages')
-    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'))
+    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 
 class ArtistSample(db.Model):
 
@@ -107,7 +107,7 @@ class ArtistSample(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
     resource_id = db.Column(db.Unicode, nullable=False)
     third_party = db.relationship('ThirdParty')
-    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'))
+    third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 
 class ThirdParty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
