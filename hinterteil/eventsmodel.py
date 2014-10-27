@@ -4,11 +4,12 @@ class Venue(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=False)
-    description = db.Column(db.Unicode, nullable=True)
-    last_modified = db.Column(db.DateTime, nullable=True)
-    adress_string = db.Column(db.Unicode, nullable=True)
     lat = db.Column(db.Float, nullable=False)
     lon = db.Column(db.Float, nullable=False)
+    adress_string = db.Column(db.Unicode, nullable=False)
+
+    description = db.Column(db.Unicode, nullable=True)
+    last_modified = db.Column(db.DateTime, nullable=True)
 
     region = db.relationship('Region', backref='venues')
     region_id = db.Column(db.Integer, db.ForeignKey('region.id'), nullable=False)
@@ -37,10 +38,9 @@ class Event(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=False)
-    start_date = db.Column(db.Date, nullable=False)
-    start_time = db.Column(db.Time, nullable=True)
-    end_date = db.Column(db.Date, nullable=True)
-    end_time = db.Column(db.Time, nullable=True)
+    start_datetime = db.Column(db.DateTime, nullable=False)
+    end_datetime = db.Column(db.DateTime, nullable=True)
+    #end_time = db.Column(db.Time, nullable=True)
     description = db.Column(db.Unicode, nullable=True)
     last_modified = db.Column(db.DateTime, nullable=True)
 
@@ -77,7 +77,7 @@ class Artist(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=False)
-    text = db.Column(db.Unicode, nullable=True)
+    description = db.Column(db.Unicode, nullable=True)
     last_modified = db.Column(db.DateTime, nullable=True)
 
     performances = db.relationship('Performance', backref='artist')
@@ -88,10 +88,10 @@ class Artist(db.Model):
 class ArtistPage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.Unicode, unique=True) #url at tp
+    url = db.Column(db.Unicode, unique=True, nullable=False) #url at tp
 
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
-    resource_id = db.Column(db.Unicode, nullable=True)
+    resource_id = db.Column(db.Unicode, nullable=True) #id at tp
     third_party = db.relationship('ThirdParty', backref='artist_pages')
     third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 

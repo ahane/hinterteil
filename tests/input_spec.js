@@ -105,6 +105,7 @@ frisby.create('Input Giberish')
 
 VenueA = {
     name: 'VenueA',
+    adress_string: 'abc',
     lat: 13.001,
     lon: 51.002,
     region: {id: 1},
@@ -112,6 +113,7 @@ VenueA = {
     };
 VenueB = {
     name: 'VenueB',
+    adress_string: 'abc',
     lat: 13.001,
     lon: 51.002,
     region: {id: 1},
@@ -229,13 +231,15 @@ frisby.create('Get VenueA after PageA Input')
 
 EventA = {
     name: 'EventA',
-    start_date: '2014-10-21',
+    start_datetime: '2014-10-11T12:00:00',
+    end_datetime: '2014-10-11T16:00:00',
     venue_id: 1,
     source: {id: 1}
     };
 EventB = {
     name: 'EventB',
-    start_date: '2014-10-23',
+    start_datetime: '2014-10-11T12:00:00',
+    end_datetime: '2014-10-12T16:00:00',
     venue: {id: 1},
     source: {id: 1}
     };
@@ -244,6 +248,7 @@ EventB = {
 frisby.create('Input EventA')
     .post(API_URL+'/event', EventA, { json: true })
         .expectHeaderContains('Content-Type', 'json')
+        .inspectJSON()
         .expectStatus(201) // CREATED
         .expectJSON(EventA)
         .expectJSON('venue', {id: VenueA.id})
@@ -255,7 +260,7 @@ frisby.create('Input EventB as PUT on VenueA')
     .put(API_URL+'/venue/1', {'events': {'add': EventB}}, { json: true })
     .expectStatus(200) //OK
     .expectJSON({id: 1})
-    .inspectJSON()
+    //.inspectJSON()
     .expectJSON('events', [{name: EventA.name}, {name: EventB.name}])
 .toss();
     
