@@ -41,7 +41,7 @@ frisby.create('Input performanceKindB')
 
 //Test Retrieval of created
 frisby.create('Get performanceKindA')
-    .get(API_URL+'/performance_kind/'+PerformanceKindA.name)
+    .get(API_URL+'/performance_kind/1')
         .expectHeaderContains('Content-Type', 'json')
         .expectStatus(200) // OK
         .expectJSON(PerformanceKindA)
@@ -84,7 +84,7 @@ frisby.create('Input thirdPartyB')
 
 //Test Retrieval of created
 frisby.create('Get thirdPartyA')
-    .get(API_URL+'/third_party/'+ThirdPartyA.name)
+    .get(API_URL+'/third_party/1')
         .expectHeaderContains('Content-Type', 'json')
         .expectStatus(200) // OK
         .expectJSON(ThirdPartyA)
@@ -175,6 +175,11 @@ VenuePageB = {
     venue: {id: 2},
     third_party: {id: 1}};
 
+VenuePageC = {
+    url: 'http://www.VenuePageC.com',
+    venue: {id: 1},
+    third_party: {id: 2}};
+
 //Test Proper Creation
 frisby.create('Input VenuePageA')
     .post(API_URL+'/venue_page', VenuePageA, { json: true })
@@ -186,6 +191,18 @@ frisby.create('Input VenuePageA')
         .expectJSONTypes({'third_party': Object})
         .expectJSON({'venue_id': 1, 'third_party_id': 1})
 .toss();
+
+//Why does this fail? how does flask-restless handle these relationships
+// frisby.create('Input VenuePageC')
+//     .post(API_URL+'/venue_page', VenuePageC, { json: true })
+//         .expectHeaderContains('Content-Type', 'json')
+//         .expectStatus(201) // CREATED
+//         .expectJSON(VenuePageC)
+//         .expectJSONTypes({id: Number})
+//         .expectJSONTypes({'venue': Object})
+//         .expectJSONTypes({'third_party': Object})
+//         .expectJSON({'venue_id': 1, 'third_party_id': 2})
+// .toss();
 
 frisby.create('Input VenuePageB as PUT on VenueA')
     .put(API_URL+'/venue/1', {'pages': {'add': VenuePageB}}, { json: true })

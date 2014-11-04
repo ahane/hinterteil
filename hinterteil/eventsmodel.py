@@ -102,6 +102,8 @@ class ArtistSample(db.Model):
     name = db.Column(db.Unicode, nullable=True)
     description = db.Column(db.Unicode, nullable=True)
     genre_string = db.Column(db.Unicode, nullable=True)
+    label = db.Column(db.Unicode, nullable=True)
+    license = db.Column(db.Unicode, nullable=True)
 
     artist = db.relationship('Artist', backref='samples')
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
@@ -110,10 +112,12 @@ class ArtistSample(db.Model):
     third_party_id = db.Column(db.Integer, db.ForeignKey('third_party.id'), nullable=False)
 
 class ThirdParty(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=False, unique=True)
     url = db.Column(db.Unicode, nullable=False, unique=True)
 
 class PerformanceKind(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode, nullable=True, unique=True)

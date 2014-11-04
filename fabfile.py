@@ -1,5 +1,4 @@
 from fabric.api import local, parallel, task, serial
-from hinterteil import app
 from multiprocessing import Process
 
 
@@ -14,6 +13,7 @@ def test():
     #run()
     #local('python run.py', capture=True)
     #server = Process(target=run)
+    reset_database()
     run()
     try:
         local('jasmine-node tests/')
@@ -26,6 +26,12 @@ def test():
     #server.terminate()
     #run_tests()
     #server.terminate()
+
+def reset_database():
+    try:
+        local('rm hinterteil/test.db')
+    except:
+        pass
 
 def show_gunis():
     local('ps -xa | grep gunicorn')
